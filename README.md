@@ -144,9 +144,7 @@ MediSphere/
 
 ## 📎 Sample Invoices
 
-- [🧾 Invoice 1](sample_docs/invoice_1.pdf)
-- [🧾 Invoice 2](sample_docs/invoice_2.pdf)
-
+- [🧾 Invoice 1](sample_docs/hms_invoice_sample_1.pdf)
 
 ---
 
@@ -158,10 +156,16 @@ This project is licensed under the [GNU General Public License v3.0](https://www
 
 ---
 
-## 👤 Author
+---
 
-**Munavir Ali**  
-GitHub: [@Munavir-Ali](https://github.com/Munavir-Ali)
+## 👥 Authors
+
+- [Munavir Ali](https://github.com/Munavir-Ali) – 🧠 *Team Lead & Backend Developer*
+- [Varghese Poulose](https://github.com/Varghese36) – Frontend Developer
+- [Sreehari S S](https://github.com/geohotz-png) – UI/UX & Testing
+
+> This project was developed collaboratively as part of a group effort.  
+> Roles were divided for better coordination and efficiency.
 
 ---
 
