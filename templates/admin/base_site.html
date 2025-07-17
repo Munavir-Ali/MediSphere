@@ -1,0 +1,9 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block usertools %}
+  <div id="user-tools">
+    {% trans 'Welcome,' %} {{ user.get_username }}.
+    <a href="{% url 'admin_logout_redirect' %}">{% trans 'Log out' %}</a>
+  </div>
+{% endblock %}

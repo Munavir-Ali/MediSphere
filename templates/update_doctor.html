@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Doctor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">MediSphere</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'admin_page' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2 class="text-center">Update Doctor</h2>
+
+        <!-- Display Error Messages -->
+        {% if messages %}
+            <div class="mt-3">
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form action="{% url 'update_doctor' doctor.doctor_id %}" method="POST">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ doctor.doctor_name }}" required>
+            </div>
+
+            <!-- Specialty (Non-editable) -->
+            <div class="mb-3">
+                <label class="form-label">Specialty</label>
+                <p class="form-control-plaintext"><strong>{{ doctor.specialty|default:"Not Assigned" }}</strong></p>
+            </div>
+
+            <!-- Department (Non-editable) -->
+            <div class="mb-3">
+                <label class="form-label">Department</label>
+                <p class="form-control-plaintext"><strong>{{ doctor.department_name|default:"Not Assigned" }}</strong></p>
+            </div>
+
+            <!-- License Number (Readonly) -->
+            <div class="mb-3">
+                <label for="license_number" class="form-label">License Number</label>
+                <input type="text" class="form-control" id="license_number" name="license_number" value="{{ doctor.license_number }}" readonly>
+            </div>
+
+            <div class="mb-3">
+                <label for="contact_info" class="form-label">Contact Info</label>
+                <input type="text" class="form-control" id="contact_info" name="contact_info" value="{{ doctor.contact_info }}">
+            </div>
+
+            <!-- Shift as Dropdown -->
+            <div class="mb-3">
+                <label for="shift" class="form-label">Shift</label>
+                <select class="form-select" id="shift" name="shift">
+                    <option value="Morning" {% if doctor.shift == "Morning" %}selected{% endif %}>Morning</option>
+                    <option value="Evening" {% if doctor.shift == "Evening" %}selected{% endif %}>Evening</option>
+                    <option value="Night" {% if doctor.shift == "Night" %}selected{% endif %}>Night</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select" id="status" name="status">
+                    <option value="active" {% if doctor.status == 'active' %}selected{% endif %}>Active</option>
+                    <option value="inactive" {% if doctor.status == 'inactive' %}selected{% endif %}>Inactive</option>
+                </select>
+            </div>
+
+            <!-- Hidden Inputs to Preserve Query Params -->
+            <input type="hidden" name="from_department" value="{{ doctor.from_department }}">
+            <input type="hidden" name="department_id" value="{{ doctor.department_id }}">
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">Update</button>
+                <button type="button" class="btn btn-secondary" onclick="window.history.back();">Cancel</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

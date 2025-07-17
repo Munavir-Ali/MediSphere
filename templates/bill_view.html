@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill {{ bill.bill_id }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @media print {
+            body { font-family: Arial, sans-serif; font-size: 12px; }
+            .no-print { display: none !important; }
+            .header { text-align: center; margin-bottom: 20px; }
+            .bill-info { margin-bottom: 30px; }
+            .table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+            .table th, .table td { border: 1px solid #ddd; padding: 5px; }
+            .table th { background-color: #f2f2f2; }
+            .text-right { text-align: right; }
+            .totals { margin-top: 20px; float: right; width: 200px; }
+            .footer { margin-top: 30px; text-align: center; font-size: 0.8em; }
+            .page-break { page-break-after: always; }
+        }
+        @media screen {
+            .print-format {
+                width: 210mm;
+                min-height: 297mm;
+                padding: 20mm;
+                margin: 10mm auto;
+                border: 1px solid #D3D3D3;
+                background: white;
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container no-print my-4">
+        <div class="d-flex justify-content-between mb-3">
+            <a href="{% url 'patient_billing_list' %}" class="btn btn-secondary">
+                &larr; Back to Patients
+            </a>
+            <div>
+                <button onclick="window.print()" class="btn btn-primary me-2">
+                    Print Bill
+                </button>
+                <a href="?download=1" class="btn btn-success">
+                    Download PDF
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="print-format">
+        <div class="header">
+            <h2>MediSphere Pharmacy</h2>
+            <h3>Invoice #{{ bill.bill_id }}</h3>
+            <p>Date: {{ bill.billing_date|date:"d/m/Y" }}</p>
+        </div>
+
+        <div class="bill-info">
+            <div style="float: left; width: 50%;">
+                <h4>Patient Information</h4>
+                <p><strong>Name:</strong> {{ bill.first_name }} {{ bill.last_name }}</p>
+                <p><strong>Patient ID:</strong> {{ bill.patient_id }}</p>
+                <p><strong>Contact:</strong> {{ bill.phone_number|default:"N/A" }}</p>
+            </div>
+            <div style="float: right; width: 50%;">
+                <h4>Prescribing Doctor</h4>
+                <p><strong>Name:</strong> {{ bill.doctor_name }}</p>
+                <p><strong>Prescription ID:</strong> {{ bill.prescription_id }}</p>
+                <p><strong>Date:</strong> {{ bill.prescription_date|date:"d/m/Y"|default:"N/A" }}</p>
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Medicine</th>
+                    <th>Unit Price (₹)</th>
+                    <th>Qty</th>
+                    <th>Total (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item.medicine_name }}</td>
+                    <td class="text-right">{{ item.unit_price }}</td>
+                    <td class="text-right">{{ item.quantity }}</td>
+                    <td class="text-right">{{ item.total_price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="totals">
+            <table class="table">
+                <tr>
+                    <td><strong>Subtotal:</strong></td>
+                    <td class="text-right">₹{{ bill.subtotal }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Tax (5%):</strong></td>
+                    <td class="text-right">₹{{ bill.tax_amount }}</td>
+                </tr>
+                <tr class="table-active">
+                    <td><strong>Grand Total:</strong></td>
+                    <td class="text-right"><strong>₹{{ bill.grand_total }}</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Payment Method:</strong></td>
+                    <td class="text-right">{{ bill.payment_method }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Status:</strong></td>
+                    <td class="text-right">
+                        <span class="badge bg-{% if bill.payment_status == 'Paid' %}success{% else %}warning{% endif %}">
+                            {{ bill.payment_status }}
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="clear: both;"></div>
+
+        <div class="footer mt-4">
+            <p>Thank you for choosing MediSphere Pharmacy</p>
+            <p>Generated on {{ bill.billing_date|date:"d/m/Y H:i" }}</p>
+            <p class="text-muted">For any queries, please contact: pharmacy@medisphere.com | Phone: +91 1234567890</p>
+        </div>
+    </div>
+
+    <script>
+        // Auto-print if ?print=1 is in URL
+        if(window.location.search.includes('print=1')) {
+            window.print();
+        }
+    </script>
+</body>
+</html>
