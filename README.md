@@ -116,10 +116,29 @@ MediSphere/
 ![Login Page](screenshots/login.png)
 
 ### 🩺 Doctor Dashboard
-![Dashboard](screenshots/dashboard.png)
+![Doctor Dashboard](screenshots/doctor_dashboard_1.png)
+
+### 🧑‍⚕️ Admin Dashboard
+![Admin Dashboard](screenshots/admin_dashboard.png)
+
+### ⚙️ Django Admin Panel
+![Django Admin Dashboard](screenshots/django_admin_dashboard.png)
+
+### 🔐 Django Admin Login
+![Django Admin Login](screenshots/django_admin_login.png)
+
+### 💊 Pharmacy Billing
+![Pharmacy Billing](screenshots/pharma_billing_1.png)
 
 ### 🧾 Invoice Sample
-![Invoice](screenshots/invoice_sample.png)
+![Invoice](screenshots/pharma_billing_2.png)
+
+### 📋 Prescription Generation
+![Prescription Generation](screenshots/prescription_generation.png)
+
+### 📅 New Appointment / Booking
+![New Appointment](screenshots/new_booking_or_appointment.png)
+
 
 ---
 
